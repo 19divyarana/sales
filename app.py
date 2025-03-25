@@ -1,44 +1,38 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
-
-
-import streamlit as st
+from flask import Flask, render_template, request, jsonify
 import numpy as np
 import joblib
+
+app = Flask(__name__)
 
 # Load model and scaler
 model = joblib.load("xgboost_model.pkl")
 scaler = joblib.load("scaler.pkl")
 
-st.title("📊 Sales Prediction App")
+@app.route('/')
+def home():
+    return render_template('home.html')
 
-st.markdown("Predict sales based on time, city, and product details.")
-
-# Input fields
-month = st.number_input("📅 Month", min_value=1, max_value=12, value=3)
-hour = st.number_input("⏰ Hour", min_value=0, max_value=23, value=14)
-city = st.number_input("🏙️ City (Encoded)", min_value=0, value=0)
-quantity_ordered = st.number_input("📦 Quantity Ordered", min_value=1, value=1)
-price_each = st.number_input("💰 Price Each", min_value=1.0, value=10.0)
-
-# Predict Button
-if st.button("🔍 Predict Sales"):
+@app.route('/predict', methods=['POST'])
+def predict():
     try:
+        # Get data from form
+        month = int(request.form['month'])
+        hour = int(request.form['hour'])
+        city = int(request.form['city'])
+        quantity_ordered = int(request.form['quantity_ordered'])
+        price_each = float(request.form['price_each'])
+        
         # Prepare input
         features = np.array([[month, hour, city, quantity_ordered, price_each]])
         scaled_features = scaler.transform(features)
         
         # Make prediction
         prediction = model.predict(scaled_features)[0]
-        st.success(f"🤑 Predicted Sales: **${round(float(prediction), 2)}**")
+        sales = round(float(prediction), 2)
+        
+        return render_template('result.html', prediction=sales)
     except Exception as e:
-        st.error(f"Error: {e}")
+        return jsonify({'error': str(e)})
 
-
-# In[ ]:
-
-
-
-
+if __name__ == '__main__':
+    app.run(debug=True)
