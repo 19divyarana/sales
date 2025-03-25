@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Prediction</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            color: #fff;
+            text-align: center;
+            padding: 50px;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        .btn-custom {
+            background-color: #ff758c;
+            border: none;
+        }
+        .btn-custom:hover {
+            background-color: #ff5e62;
+        }
+    </style>
+    <script>
+        function updateInput(sliderId, inputId) {
+            document.getElementById(inputId).value = document.getElementById(sliderId).value;
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 Sales Prediction</h1>
+        <form action="/predict" method="post">
+            <label for="month">📅 Month:</label>
+            <input type="range" id="month" name="month" min="1" max="12" value="3" class="form-range" oninput="updateInput('month', 'monthValue')">
+            <input type="number" id="monthValue" name="monthValue" min="1" max="12" value="3" class="form-control">
+            <br>
+            
+            <label for="hour">⏰ Hour:</label>
+            <input type="range" id="hour" name="hour" min="0" max="23" value="14" class="form-range" oninput="updateInput('hour', 'hourValue')">
+            <input type="number" id="hourValue" name="hourValue" min="0" max="23" value="14" class="form-control">
+            <br>
+            
+            <label for="city">🏙️ City (Encoded):</label>
+            <input type="number" name="city" min="0" value="0" class="form-control">
+            <br>
+            
+            <label for="quantity_ordered">📦 Quantity Ordered:</label>
+            <input type="range" id="quantity_ordered" name="quantity_ordered" min="1" max="100" value="1" class="form-range" oninput="updateInput('quantity_ordered', 'quantityValue')">
+            <input type="number" id="quantityValue" name="quantityValue" min="1" max="100" value="1" class="form-control">
+            <br>
+            
+            <label for="price_each">💰 Price Each:</label>
+            <input type="range" id="price_each" name="price_each" min="1" max="500" value="10" class="form-range" oninput="updateInput('price_each', 'priceValue')">
+            <input type="number" id="priceValue" name="priceValue" min="1" max="500" value="10" class="form-control">
+            <br>
+            
+            <button type="submit" class="btn btn-custom btn-lg">🔍 Predict Sales</button>
+        </form>
+    </div>
+</body>
+</html>
