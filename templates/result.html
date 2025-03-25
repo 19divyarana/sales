@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Result</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            text-align: center;
+            padding: 50px;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        .btn-custom {
+            background-color: #ff758c;
+            border: none;
+        }
+        .btn-custom:hover {
+            background-color: #ff5e62;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 Sales Prediction Result</h1>
+        <h2>🤑 Predicted Sales: <strong>${{ prediction }}</strong></h2>
+        <a href="/" class="btn btn-custom btn-lg mt-3">🔙 Back to Home</a>
+    </div>
+</body>
+</html>
