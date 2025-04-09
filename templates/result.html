@@ -1,12 +1,13 @@
+<!-- templates/result.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Prediction Result</title>
+  <title>Sales Prediction - Result</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #f0f4f8;
+      background: linear-gradient(to bottom right, #f0f3ff, #e0e7ff);
+      font-family: 'Segoe UI', sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -15,78 +16,52 @@
     }
 
     .result-box {
-      background: white;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
-      width: 400px;
+      background: #fff;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
       text-align: center;
+      width: 400px;
     }
 
     h2 {
       color: #4f46e5;
-      margin-bottom: 15px;
+      margin-bottom: 20px;
     }
 
     p {
-      font-size: 18px;
-      margin: 8px 0;
+      font-size: 20px;
+      color: #111827;
+      margin: 10px 0;
     }
 
-    .predicted {
-      margin-top: 20px;
-      font-size: 22px;
-      font-weight: bold;
+    .sales-amount {
+      font-size: 32px;
       color: #1f2937;
+      font-weight: bold;
+      margin: 25px 0;
     }
 
     a {
       display: inline-block;
-      margin-top: 25px;
+      margin-top: 20px;
       text-decoration: none;
-      padding: 10px 20px;
       background: #4f46e5;
       color: white;
+      padding: 10px 20px;
       border-radius: 8px;
     }
 
     a:hover {
-      background: #3e3bbf;
+      background: #3b3fc1;
     }
   </style>
 </head>
 <body>
   <div class="result-box">
-    <h2>Sales Prediction Result</h2>
-    <p>Month: <span id="month"></span></p>
-    <p>Hour: <span id="hour"></span></p>
-    <p>City Code: <span id="city"></span></p>
-    <p>Quantity: <span id="quantity"></span></p>
-    <p>Price Each: $<span id="price"></span></p>
-
-    <p class="predicted">Predicted Sales: $<span id="sales"></span></p>
-
-    <a href="home.html">🔙 Back to Home</a>
+    <h2>Predicted Sales</h2>
+    <p class="sales-amount">$ {{ prediction }}</p>
+    <a href="/">🔙 Predict Again</a>
   </div>
-
-  <script>
-    const params = new URLSearchParams(window.location.search);
-    const month = parseInt(params.get('month'));
-    const hour = parseInt(params.get('hour'));
-    const city = parseInt(params.get('city'));
-    const quantity = parseInt(params.get('quantity'));
-    const price = parseFloat(params.get('price'));
-
-    // Fill values
-    document.getElementById('month').textContent = month;
-    document.getElementById('hour').textContent = hour;
-    document.getElementById('city').textContent = city;
-    document.getElementById('quantity').textContent = quantity;
-    document.getElementById('price').textContent = price;
-
-    // Dummy prediction logic (replace with ML model later)
-    const predictedSales = (quantity * price * (1 + month / 12 + hour / 24 + city / 10)).toFixed(2);
-    document.getElementById('sales').textContent = predictedSales;
-  </script>
 </body>
 </html>
