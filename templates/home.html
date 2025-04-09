@@ -1,99 +1,99 @@
+<!-- templates/home.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Sales Prediction Dashboard</title>
+  <title>Sales Prediction - Home</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #eef2f7;
+      background: linear-gradient(135deg, #c3cfe2, #dde1f8);
+      font-family: 'Segoe UI', sans-serif;
       display: flex;
       justify-content: center;
-      align-items: flex-start;
-      min-height: 100vh;
+      align-items: center;
+      height: 100vh;
       margin: 0;
     }
 
-    .container {
-      background: white;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-      margin-top: 50px;
+    .form-box {
+      background: #fff;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
       width: 400px;
     }
 
     h2 {
-      color: #4f46e5;
-      margin-bottom: 20px;
       text-align: center;
+      margin-bottom: 25px;
+      color: #4f46e5;
     }
 
     label {
+      font-weight: 600;
       display: block;
       margin-top: 15px;
-      font-weight: bold;
+      margin-bottom: 5px;
     }
 
-    input[type="range"] {
+    input[type="number"], input[type="range"] {
       width: 100%;
+      padding: 8px;
+      font-size: 16px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
     }
 
-    span.value {
+    .slider-value {
       float: right;
-      font-weight: normal;
+      font-size: 14px;
       color: #333;
     }
 
     button {
-      margin-top: 25px;
-      padding: 12px;
+      margin-top: 20px;
       width: 100%;
+      padding: 12px;
       background-color: #4f46e5;
       color: white;
       border: none;
       border-radius: 8px;
       font-size: 16px;
       cursor: pointer;
+      transition: background 0.3s;
     }
 
     button:hover {
-      background-color: #3f3cc8;
+      background-color: #3e3bbf;
     }
   </style>
 </head>
 <body>
-  <div class="container">
+  <form class="form-box" method="POST" action="/predict">
     <h2>Sales Prediction</h2>
-    <label>Month: <span id="monthVal" class="value">1</span></label>
-    <input type="range" id="month" min="1" max="12" value="1" oninput="monthVal.textContent = this.value">
 
-    <label>Hour: <span id="hourVal" class="value">12</span></label>
-    <input type="range" id="hour" min="0" max="23" value="12" oninput="hourVal.textContent = this.value">
+    <label>Month: <span id="monthVal" class="slider-value">1</span></label>
+    <input type="range" name="month" id="month" min="1" max="12" value="1" oninput="monthVal.textContent = this.value">
 
-    <label>City Code: <span id="cityVal" class="value">0</span></label>
-    <input type="range" id="city" min="0" max="10" value="0" oninput="cityVal.textContent = this.value">
+    <label>Hour (0-23): <span id="hourVal" class="slider-value">12</span></label>
+    <input type="range" name="hour" id="hour" min="0" max="23" value="12" oninput="hourVal.textContent = this.value">
 
-    <label>Quantity Ordered: <span id="quantityVal" class="value">1</span></label>
-    <input type="range" id="quantity" min="1" max="50" value="1" oninput="quantityVal.textContent = this.value">
+    <label>City Code:</label>
+    <input type="number" name="city" value="0" min="0" max="10" required>
 
-    <label>Price Each ($): <span id="priceVal" class="value">10</span></label>
-    <input type="range" id="price" min="1" max="100" value="10" oninput="priceVal.textContent = this.value">
+    <label>Quantity Ordered:</label>
+    <input type="number" name="quantity_ordered" value="1" min="1" required>
 
-    <button onclick="goToResult()">Predict Sales</button>
-  </div>
+    <label>Price Each ($):</label>
+    <input type="number" step="0.01" name="price_each" value="10.00" required>
+
+    <button type="submit">Predict Sales</button>
+  </form>
 
   <script>
-    function goToResult() {
-      const month = document.getElementById("month").value;
-      const hour = document.getElementById("hour").value;
-      const city = document.getElementById("city").value;
-      const quantity = document.getElementById("quantity").value;
-      const price = document.getElementById("price").value;
-
-      const url = `result.html?month=${month}&hour=${hour}&city=${city}&quantity=${quantity}&price=${price}`;
-      window.location.href = url;
-    }
+    document.getElementById("monthVal").textContent = document.getElementById("month").value;
+    document.getElementById("hourVal").textContent = document.getElementById("hour").value;
   </script>
 </body>
 </html>
