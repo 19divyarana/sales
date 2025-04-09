@@ -1,67 +1,99 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sales Prediction</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
-    <style>
-        body {
-            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-            color: #fff;
-            text-align: center;
-            padding: 50px;
-        }
-        .container {
-            background: rgba(0, 0, 0, 0.6);
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-        }
-        .btn-custom {
-            background-color: #ff758c;
-            border: none;
-        }
-        .btn-custom:hover {
-            background-color: #ff5e62;
-        }
-    </style>
-    <script>
-        function updateInput(sliderId, inputId) {
-            document.getElementById(inputId).value = document.getElementById(sliderId).value;
-        }
-    </script>
-</head>
-<body>
-    <div class="container">
-        <h1>📊 Sales Prediction</h1>
-        <form action="/predict" method="post">
-            <label for="month">📅 Month:</label>
-            <input type="range" id="month" name="month" min="1" max="12" value="3" class="form-range" oninput="updateInput('month', 'monthValue')">
-            <input type="number" id="monthValue" name="monthValue" min="1" max="12" value="3" class="form-control">
-            <br>
-            
-            <label for="hour">⏰ Hour:</label>
-            <input type="range" id="hour" name="hour" min="0" max="23" value="14" class="form-range" oninput="updateInput('hour', 'hourValue')">
-            <input type="number" id="hourValue" name="hourValue" min="0" max="23" value="14" class="form-control">
-            <br>
-            
-            <label for="city">🏙️ City (Encoded):</label>
-            <input type="number" name="city" min="0" value="0" class="form-control">
-            <br>
-            
-            <label for="quantity_ordered">📦 Quantity Ordered:</label>
-            <input type="range" id="quantity_ordered" name="quantity_ordered" min="1" max="100" value="1" class="form-range" oninput="updateInput('quantity_ordered', 'quantityValue')">
-            <input type="number" id="quantityValue" name="quantityValue" min="1" max="100" value="1" class="form-control">
-            <br>
-            
-            <label for="price_each">💰 Price Each:</label>
-            <input type="range" id="price_each" name="price_each" min="1" max="500" value="10" class="form-range" oninput="updateInput('price_each', 'priceValue')">
-            <input type="number" id="priceValue" name="priceValue" min="1" max="500" value="10" class="form-control">
-            <br>
-            
-            <button type="submit" class="btn btn-custom btn-lg">🔍 Predict Sales</button>
-        </form>
+import React from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Slider } from "@/components/ui/slider";
+import { Label } from "@/components/ui/label";
+
+export default function SalesPredictionDashboard() {
+  const [month, setMonth] = React.useState(1);
+  const [hour, setHour] = React.useState(12);
+  const [cityCode, setCityCode] = React.useState(0);
+  const [quantity, setQuantity] = React.useState(1);
+  const [price, setPrice] = React.useState(10);
+
+  const handleGeneratePrediction = () => {
+    const data = {
+      month,
+      hour,
+      cityCode,
+      quantity,
+      price,
+    };
+    console.log("Generating Sales Prediction with:", data);
+  };
+
+  return (
+    <div className="max-w-xl mx-auto p-4">
+      <div className="bg-gradient-to-r from-purple-500 to-indigo-500 text-white text-center py-6 rounded-2xl shadow-lg mb-6">
+        <h2 className="text-2xl font-bold">Sales Prediction Dashboard</h2>
+        <p className="text-sm">📈 Predict your sales with machine learning precision <span className="bg-white text-purple-600 px-2 py-0.5 rounded-full text-xs ml-2">AI Powered</span></p>
+      </div>
+
+      <Card className="mb-4">
+        <CardContent className="space-y-4 py-6">
+          <div>
+            <Label>Month</Label>
+            <Slider min={1} max={12} value={[month]} onValueChange={([val]) => setMonth(val)} />
+            <p className="text-sm text-gray-600">Select the month of the year (1-12)</p>
+          </div>
+
+          <div>
+            <Label>Hour</Label>
+            <Slider min={0} max={23} value={[hour]} onValueChange={([val]) => setHour(val)} />
+            <p className="text-sm text-gray-600">Select the hour of day (0-23)</p>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card className="mb-4">
+        <CardContent className="space-y-4 py-6">
+          <div>
+            <Label>City Code</Label>
+            <Input
+              type="number"
+              min={0}
+              max={10}
+              value={cityCode}
+              onChange={(e) => setCityCode(Number(e.target.value))}
+            />
+            <p className="text-sm text-gray-600">Enter the encoded city identifier (0-10)</p>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card className="mb-4">
+        <CardContent className="space-y-4 py-6">
+          <div>
+            <Label>Quantity Ordered</Label>
+            <Input
+              type="number"
+              min={1}
+              max={50}
+              value={quantity}
+              onChange={(e) => setQuantity(Number(e.target.value))}
+            />
+            <p className="text-sm text-gray-600">Number of items in the order</p>
+          </div>
+
+          <div>
+            <Label>Price Each</Label>
+            <Input
+              type="number"
+              step="0.01"
+              min={0}
+              max={100}
+              value={price}
+              onChange={(e) => setPrice(Number(e.target.value))}
+            />
+            <p className="text-sm text-gray-600">Price per item in dollars ($)</p>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Button className="w-full text-lg py-6" onClick={handleGeneratePrediction}>
+        ✏️ Generate Sales Prediction
+      </Button>
     </div>
-</body>
-</html>
+  );
+}
