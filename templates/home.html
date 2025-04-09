@@ -113,7 +113,21 @@
       <input type="range" min="0" max="100" value="10" id="price" oninput="priceValue.textContent = this.value">
     </div>
 
-    <button class="predict-btn">Generate Sales Prediction</button>
+    <button class="predict-btn" onclick="goToResult()">Generate Sales Prediction</button>
   </div>
+
+  <script>
+    function goToResult() {
+      const month = document.getElementById("month").value;
+      const hour = document.getElementById("hour").value;
+      const city = document.getElementById("city").value;
+      const quantity = document.getElementById("quantity").value;
+      const price = document.getElementById("price").value;
+
+      // Pass values via URL query parameters
+      const url = `result.html?month=${month}&hour=${hour}&city=${city}&quantity=${quantity}&price=${price}`;
+      window.location.href = url;
+    }
+  </script>
 </body>
 </html>
