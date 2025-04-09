@@ -2,98 +2,91 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Sales Prediction Dashboard</title>
+  <title>Prediction Result</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #eef2f7;
+      background: #f0f4f8;
       display: flex;
       justify-content: center;
-      align-items: flex-start;
-      min-height: 100vh;
+      align-items: center;
+      height: 100vh;
       margin: 0;
     }
 
-    .container {
+    .result-box {
       background: white;
       padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-      margin-top: 50px;
+      border-radius: 12px;
+      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
       width: 400px;
+      text-align: center;
     }
 
     h2 {
       color: #4f46e5;
-      margin-bottom: 20px;
-      text-align: center;
+      margin-bottom: 15px;
     }
 
-    label {
-      display: block;
-      margin-top: 15px;
+    p {
+      font-size: 18px;
+      margin: 8px 0;
+    }
+
+    .predicted {
+      margin-top: 20px;
+      font-size: 22px;
       font-weight: bold;
+      color: #1f2937;
     }
 
-    input[type="range"] {
-      width: 100%;
-    }
-
-    span.value {
-      float: right;
-      font-weight: normal;
-      color: #333;
-    }
-
-    button {
+    a {
+      display: inline-block;
       margin-top: 25px;
-      padding: 12px;
-      width: 100%;
-      background-color: #4f46e5;
+      text-decoration: none;
+      padding: 10px 20px;
+      background: #4f46e5;
       color: white;
-      border: none;
       border-radius: 8px;
-      font-size: 16px;
-      cursor: pointer;
     }
 
-    button:hover {
-      background-color: #3f3cc8;
+    a:hover {
+      background: #3e3bbf;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h2>Sales Prediction</h2>
-    <label>Month: <span id="monthVal" class="value">1</span></label>
-    <input type="range" id="month" min="1" max="12" value="1" oninput="monthVal.textContent = this.value">
+  <div class="result-box">
+    <h2>Sales Prediction Result</h2>
+    <p>Month: <span id="month"></span></p>
+    <p>Hour: <span id="hour"></span></p>
+    <p>City Code: <span id="city"></span></p>
+    <p>Quantity: <span id="quantity"></span></p>
+    <p>Price Each: $<span id="price"></span></p>
 
-    <label>Hour: <span id="hourVal" class="value">12</span></label>
-    <input type="range" id="hour" min="0" max="23" value="12" oninput="hourVal.textContent = this.value">
+    <p class="predicted">Predicted Sales: $<span id="sales"></span></p>
 
-    <label>City Code: <span id="cityVal" class="value">0</span></label>
-    <input type="range" id="city" min="0" max="10" value="0" oninput="cityVal.textContent = this.value">
-
-    <label>Quantity Ordered: <span id="quantityVal" class="value">1</span></label>
-    <input type="range" id="quantity" min="1" max="50" value="1" oninput="quantityVal.textContent = this.value">
-
-    <label>Price Each ($): <span id="priceVal" class="value">10</span></label>
-    <input type="range" id="price" min="1" max="100" value="10" oninput="priceVal.textContent = this.value">
-
-    <button onclick="goToResult()">Predict Sales</button>
+    <a href="home.html">🔙 Back to Home</a>
   </div>
 
   <script>
-    function goToResult() {
-      const month = document.getElementById("month").value;
-      const hour = document.getElementById("hour").value;
-      const city = document.getElementById("city").value;
-      const quantity = document.getElementById("quantity").value;
-      const price = document.getElementById("price").value;
+    const params = new URLSearchParams(window.location.search);
+    const month = parseInt(params.get('month'));
+    const hour = parseInt(params.get('hour'));
+    const city = parseInt(params.get('city'));
+    const quantity = parseInt(params.get('quantity'));
+    const price = parseFloat(params.get('price'));
 
-      const url = `result.html?month=${month}&hour=${hour}&city=${city}&quantity=${quantity}&price=${price}`;
-      window.location.href = url;
-    }
+    // Fill values
+    document.getElementById('month').textContent = month;
+    document.getElementById('hour').textContent = hour;
+    document.getElementById('city').textContent = city;
+    document.getElementById('quantity').textContent = quantity;
+    document.getElementById('price').textContent = price;
+
+    // Dummy prediction logic (replace with ML model later)
+    const predictedSales = (quantity * price * (1 + month / 12 + hour / 24 + city / 10)).toFixed(2);
+    document.getElementById('sales').textContent = predictedSales;
   </script>
 </body>
 </html>
