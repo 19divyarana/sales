@@ -5,115 +5,82 @@
   <title>Sales Prediction Dashboard</title>
   <style>
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #f4f6fc;
-      margin: 0;
-      padding: 0;
+      font-family: Arial, sans-serif;
+      background: #eef2f7;
       display: flex;
       justify-content: center;
       align-items: flex-start;
-      height: 100vh;
+      min-height: 100vh;
+      margin: 0;
     }
 
-    .dashboard {
+    .container {
       background: white;
-      border-radius: 15px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
       padding: 30px;
-      max-width: 500px;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
       margin-top: 50px;
+      width: 400px;
     }
 
     h2 {
       color: #4f46e5;
-      margin-bottom: 5px;
-    }
-
-    .subtitle {
-      color: #666;
-      font-size: 14px;
-      margin-bottom: 25px;
-    }
-
-    .section {
-      margin-bottom: 25px;
-      border-top: 1px solid #eee;
-      padding-top: 20px;
-    }
-
-    .section h3 {
-      font-size: 16px;
-      color: #333;
-      margin-bottom: 10px;
+      margin-bottom: 20px;
+      text-align: center;
     }
 
     label {
       display: block;
-      margin-bottom: 5px;
-      font-size: 14px;
-      color: #555;
+      margin-top: 15px;
+      font-weight: bold;
     }
 
     input[type="range"] {
       width: 100%;
-      margin-bottom: 15px;
     }
 
-    .predict-btn {
-      width: 100%;
+    span.value {
+      float: right;
+      font-weight: normal;
+      color: #333;
+    }
+
+    button {
+      margin-top: 25px;
       padding: 12px;
-      background: #6366f1;
+      width: 100%;
+      background-color: #4f46e5;
       color: white;
-      font-size: 16px;
       border: none;
       border-radius: 8px;
+      font-size: 16px;
       cursor: pointer;
-      transition: background 0.3s;
     }
 
-    .predict-btn:hover {
-      background: #4f46e5;
-    }
-
-    span {
-      font-weight: bold;
-      color: #333;
+    button:hover {
+      background-color: #3f3cc8;
     }
   </style>
 </head>
 <body>
-  <div class="dashboard">
-    <h2>Sales Prediction Dashboard</h2>
-    <p class="subtitle">📈 Predict your sales with machine learning precision</p>
+  <div class="container">
+    <h2>Sales Prediction</h2>
+    <label>Month: <span id="monthVal" class="value">1</span></label>
+    <input type="range" id="month" min="1" max="12" value="1" oninput="monthVal.textContent = this.value">
 
-    <!-- Temporal Factors -->
-    <div class="section">
-      <h3>📅 Temporal Factors</h3>
-      <label>Month: <span id="monthValue">1</span></label>
-      <input type="range" min="1" max="12" value="1" id="month" oninput="monthValue.textContent = this.value">
-      
-      <label>Hour: <span id="hourValue">12</span></label>
-      <input type="range" min="0" max="23" value="12" id="hour" oninput="hourValue.textContent = this.value">
-    </div>
+    <label>Hour: <span id="hourVal" class="value">12</span></label>
+    <input type="range" id="hour" min="0" max="23" value="12" oninput="hourVal.textContent = this.value">
 
-    <!-- Location Details -->
-    <div class="section">
-      <h3>📍 Location Details</h3>
-      <label>City Code: <span id="cityValue">0</span></label>
-      <input type="range" min="0" max="10" value="0" id="city" oninput="cityValue.textContent = this.value">
-    </div>
+    <label>City Code: <span id="cityVal" class="value">0</span></label>
+    <input type="range" id="city" min="0" max="10" value="0" oninput="cityVal.textContent = this.value">
 
-    <!-- Product Information -->
-    <div class="section">
-      <h3>🛒 Product Information</h3>
-      <label>Quantity Ordered: <span id="quantityValue">1</span></label>
-      <input type="range" min="1" max="50" value="1" id="quantity" oninput="quantityValue.textContent = this.value">
+    <label>Quantity Ordered: <span id="quantityVal" class="value">1</span></label>
+    <input type="range" id="quantity" min="1" max="50" value="1" oninput="quantityVal.textContent = this.value">
 
-      <label>Price Each ($): <span id="priceValue">10</span></label>
-      <input type="range" min="0" max="100" value="10" id="price" oninput="priceValue.textContent = this.value">
-    </div>
+    <label>Price Each ($): <span id="priceVal" class="value">10</span></label>
+    <input type="range" id="price" min="1" max="100" value="10" oninput="priceVal.textContent = this.value">
 
-    <button class="predict-btn" onclick="goToResult()">Generate Sales Prediction</button>
+    <button onclick="goToResult()">Predict Sales</button>
   </div>
 
   <script>
@@ -124,7 +91,6 @@
       const quantity = document.getElementById("quantity").value;
       const price = document.getElementById("price").value;
 
-      // Pass values via URL query parameters
       const url = `result.html?month=${month}&hour=${hour}&city=${city}&quantity=${quantity}&price=${price}`;
       window.location.href = url;
     }
