@@ -1,37 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prediction Result</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
-    <style>
-        body {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: #fff;
-            text-align: center;
-            padding: 50px;
-        }
-        .container {
-            background: rgba(0, 0, 0, 0.6);
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-        }
-        .btn-custom {
-            background-color: #ff758c;
-            border: none;
-        }
-        .btn-custom:hover {
-            background-color: #ff5e62;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Sales Prediction Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #eef2f7;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+      margin-top: 50px;
+      width: 400px;
+    }
+
+    h2 {
+      color: #4f46e5;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    input[type="range"] {
+      width: 100%;
+    }
+
+    span.value {
+      float: right;
+      font-weight: normal;
+      color: #333;
+    }
+
+    button {
+      margin-top: 25px;
+      padding: 12px;
+      width: 100%;
+      background-color: #4f46e5;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #3f3cc8;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>📊 Sales Prediction Result</h1>
-        <h2>🤑 Predicted Sales: <strong>${{ prediction }}</strong></h2>
-        <a href="/" class="btn btn-custom btn-lg mt-3">🔙 Back to Home</a>
-    </div>
+  <div class="container">
+    <h2>Sales Prediction</h2>
+    <label>Month: <span id="monthVal" class="value">1</span></label>
+    <input type="range" id="month" min="1" max="12" value="1" oninput="monthVal.textContent = this.value">
+
+    <label>Hour: <span id="hourVal" class="value">12</span></label>
+    <input type="range" id="hour" min="0" max="23" value="12" oninput="hourVal.textContent = this.value">
+
+    <label>City Code: <span id="cityVal" class="value">0</span></label>
+    <input type="range" id="city" min="0" max="10" value="0" oninput="cityVal.textContent = this.value">
+
+    <label>Quantity Ordered: <span id="quantityVal" class="value">1</span></label>
+    <input type="range" id="quantity" min="1" max="50" value="1" oninput="quantityVal.textContent = this.value">
+
+    <label>Price Each ($): <span id="priceVal" class="value">10</span></label>
+    <input type="range" id="price" min="1" max="100" value="10" oninput="priceVal.textContent = this.value">
+
+    <button onclick="goToResult()">Predict Sales</button>
+  </div>
+
+  <script>
+    function goToResult() {
+      const month = document.getElementById("month").value;
+      const hour = document.getElementById("hour").value;
+      const city = document.getElementById("city").value;
+      const quantity = document.getElementById("quantity").value;
+      const price = document.getElementById("price").value;
+
+      const url = `result.html?month=${month}&hour=${hour}&city=${city}&quantity=${quantity}&price=${price}`;
+      window.location.href = url;
+    }
+  </script>
 </body>
 </html>
